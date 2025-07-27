@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"os"
@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 )
 
-type config struct {
+type Config struct {
 	DbUrl string `json:"db_url"`
 	CurrentUserName string `json:"current_user_name"`
 }
@@ -24,8 +24,8 @@ func getConfigFilePath() (string , error) {
 	return filePath, nil
 }
 
-func Read() (config , error) {
-	var c config
+func Read() (Config , error) {
+	var c Config
 
 	filePath,err := getConfigFilePath()
 	if err != nil {
@@ -45,7 +45,7 @@ func Read() (config , error) {
 	return c , nil
 }
 
-func write(c *config) error {
+func write(c *Config) error {
 	jsonData,err := json.Marshal(c)
 	if err != nil {
 		return err
@@ -64,7 +64,7 @@ func write(c *config) error {
 	return nil
 }
 
-func (c *config) SetUser(username string) error {
+func (c *Config) SetUser(username string) error {
 	c.CurrentUserName = username
 	err := write(c)
 	if err != nil {
