@@ -82,6 +82,16 @@ func registerHandler(s *state , cmd command ) error {
 	return nil
 }
 
+func deleteHandler(s *state , cmd command ) error {
+	err := s.db.DeleteUsers(context.Background())
+	if err !=  nil {
+		fmt.Println("Failure to delete users")
+		return err
+	}
+	fmt.Println("Success, users deleted")
+	return nil
+}
+
 func (c *commands) run(s *state , cmd command ) error {
 	function,ok := c.commandMap[cmd.name]
 	if ok {
