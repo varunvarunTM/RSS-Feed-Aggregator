@@ -92,6 +92,23 @@ func deleteHandler(s *state , cmd command ) error {
 	return nil
 }
 
+func users(s *state , cmd command ) error {
+	users,err := s.db.GetUsers(context.Background())
+	if err != nil {
+		fmt.Println("Failure to get all users")
+		return err
+	}
+	
+	for _,user := range users {
+		fmt.Printf("* %s",user)
+		if user == s.cfg.CurrentUserName {
+			fmt.Printf(" (current)")
+		}
+		fmt.Printf("\n")
+	}
+	return nil
+}
+
 func (c *commands) run(s *state , cmd command ) error {
 	function,ok := c.commandMap[cmd.name]
 	if ok {
